@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class SCR_TileBehaviour : MonoBehaviour
 {
-    enum TileType { Red, Blue, Green, Yellow};
+    enum TileType { Red, Blue, Green, Yellow };
 
     [Header("Type Variables")]
     [SerializeField] TileType m_myType;
@@ -15,153 +14,58 @@ public class SCR_TileBehaviour : MonoBehaviour
     [SerializeField] Color[] m_colors;
     [SerializeField] MeshRenderer m_tileVisual;
 
+    [Header("Settings")]
+    [SerializeField] float _lerpSpeed = 0.4f;
+
+    SCR_MatchFinder _matchFinder;
     SCR_BoardManager _board;
 
     bool _isRandom;
     bool _isMatched = false;
-    bool _canSwitch = true;
 
     int _myWidth;
     int _myHeight;
 
+    Vector3 _tempPos;
 
-    void Start()
-    {
-        InitTile();
-    }
-
-    void InitTile()
-    {
-        if (_isRandom)
-        {
-            int num = Random.Range(0, 3);
-            SetType(num);
-
-            while (CheckMatches(_myWidth, _myHeight)) 
-            {
-                num = Random.Range(0, 3);
-                SetType(num);
-            }
-
-            SetUpColor(num);
-        }
-        else
-        {
-            SetUpColor(GetMyTypeNum());
-        }
-    }
-    void SetUpColor(int color)
+    public void SetUpColor(int color)
     {
         m_tileVisual.material.color = m_colors[color];
-
     }
 
     public void SwitchSide()
     {
-        if (_canSwitch)
+        if (GetMyTypeName() == "Red")
         {
-            if (GetMyTypeName() == "Red")
-            {
-                m_myType = TileType.Green;
-                SetUpColor(GetMyTypeNum());
-            }
-            else if (GetMyTypeName() == "Blue")
-            {
-                m_myType = TileType.Yellow;
-                SetUpColor(GetMyTypeNum());
-            }
-            else if (GetMyTypeName() == "Green")
-            {
-                m_myType = TileType.Red;
-                SetUpColor(GetMyTypeNum());
-            }
-            else
-            {
-                m_myType = TileType.Blue;
-                SetUpColor(GetMyTypeNum());
-            }
+            m_myType = TileType.Green;
+            SetUpColor(GetMyTypeNum());
+        }
+        else if (GetMyTypeName() == "Blue")
+        {
+            m_myType = TileType.Yellow;
+            SetUpColor(GetMyTypeNum());
+        }
+        else if (GetMyTypeName() == "Green")
+        {
+            m_myType = TileType.Red;
+            SetUpColor(GetMyTypeNum());
+        }
+        else
+        {
+            m_myType = TileType.Blue;
+            SetUpColor(GetMyTypeNum());
         }
     }
 
     public void FindMatches()
     {
-        if (_canSwitch)
-        {
-            // i -> Coluna == Width = X
-            // j -> Linha = Row = Height = Y
-            if (_myWidth > 0 && _myWidth < _board.GetBoardWidth() - 1)
-            {
-                SCR_TileBehaviour leftTile = _board.GetTileByPos(_myWidth - 1, _myHeight);
-                SCR_TileBehaviour rightTile = _board.GetTileByPos(_myWidth + 1, _myHeight);
-
-                if (leftTile.GetMyTypeName() == GetMyTypeName() && rightTile.GetMyTypeName() == GetMyTypeName()) // Left and Right
-                {
-                    leftTile.SetIsMatched(true);
-                    rightTile.SetIsMatched(true);
-                    SetIsMatched(true);
-                    Debug.Log("MATCH FOUND");
-                }
-            }
-            if (_myHeight > 0 && _myHeight < _board.GetBoardHeight() - 1)
-            {
-                SCR_TileBehaviour upTile = _board.GetTileByPos(_myWidth, _myHeight + 1);
-                SCR_TileBehaviour downTile = _board.GetTileByPos(_myWidth, _myHeight - 1);
-
-                if (upTile.GetMyTypeName() == GetMyTypeName() && downTile.GetMyTypeName() == GetMyTypeName()) // Up and Down
-                {
-                    upTile.SetIsMatched(true);
-                    downTile.SetIsMatched(true);
-                    SetIsMatched(true);
-                    Debug.Log("MATCH FOUND");
-                }
-            }
-            if (_myWidth > 1 && _myHeight > 1)
-            {
-                if (_board.GetTileByPos(_myWidth - 1, _myHeight).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(_myWidth - 2, _myHeight).GetMyTypeName() == GetMyTypeName()) // Left Left
-                {
-                    _board.GetTileByPos(_myWidth - 1, _myHeight).SetIsMatched(true);
-                    _board.GetTileByPos(_myWidth - 2, _myHeight).SetIsMatched(true);
-                    SetIsMatched(true);
-                    Debug.Log("MATCH FOUND");
-                }
-                if (_board.GetTileByPos(_myWidth, _myHeight - 1).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(_myWidth, _myHeight - 2).GetMyTypeName() == GetMyTypeName()) // Down Down
-                {
-                    _board.GetTileByPos(_myWidth, _myHeight - 1).SetIsMatched(true);
-                    _board.GetTileByPos(_myWidth, _myHeight - 2).SetIsMatched(true);
-                    SetIsMatched(true);
-                    Debug.Log("MATCH FOUND");
-                }
-            }
-            else if (_myWidth <= 1 || _myHeight <= 1)
-            {
-                if (_myHeight > 1)
-                {
-                    if (_board.GetTileByPos(_myWidth, _myHeight - 1).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(_myWidth, _myHeight - 2).GetMyTypeName() == GetMyTypeName()) //Down Down
-                    {
-                        _board.GetTileByPos(_myWidth, _myHeight - 1).SetIsMatched(true);
-                        _board.GetTileByPos(_myWidth, _myHeight - 2).SetIsMatched(true);
-                        SetIsMatched(true);
-                        Debug.Log("MATCH FOUND");
-                    }
-                }
-                if (_myWidth > 1)
-                {
-                    if (_board.GetTileByPos(_myWidth - 1, _myHeight).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(_myWidth - 2, _myHeight).GetMyTypeName() == GetMyTypeName()) //Left Left
-                    {
-                        _board.GetTileByPos(_myWidth - 1, _myHeight).SetIsMatched(true);
-                        _board.GetTileByPos(_myWidth - 2, _myHeight).SetIsMatched(true);
-                        SetIsMatched(true);
-                        Debug.Log("MATCH FOUND");
-                    }
-                }
-            }
-        }
+        _matchFinder.FindMatches();
+        _board.DestroyMatches();
     }
-    bool CheckMatches(int width, int height)
-    {
-        // i -> Coluna == Width = X
-        // j -> Linha = Row = Height = Y
 
+
+    public bool CheckMatches(int width, int height)
+    {
         if (width > 1 && height > 1)
         {
             if (_board.GetTileByPos(width - 1, height).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(width - 2, height).GetMyTypeName() == GetMyTypeName())
@@ -176,15 +80,59 @@ public class SCR_TileBehaviour : MonoBehaviour
         }
         else if (width <= 1 || height <= 1)
         {
-            if(height > 1)
+            if (height > 1)
                 if (_board.GetTileByPos(width, height - 1).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(width, height - 2).GetMyTypeName() == GetMyTypeName())
                     return true;
             if (width > 1)
-                if (_board.GetTileByPos(width - 1, height).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(width -2, height).GetMyTypeName() == GetMyTypeName())
-                    return true; 
+                if (_board.GetTileByPos(width - 1, height).GetMyTypeName() == GetMyTypeName() && _board.GetTileByPos(width - 2, height).GetMyTypeName() == GetMyTypeName())
+                    return true;
         }
         return false;
     }
+
+    public void DecreaseHeight(int val)
+    {
+        _myHeight -= val;
+
+    }
+    private void Update()
+    {
+        MoveTile();
+    }
+
+    void MoveTile()
+    {
+        if (Mathf.Abs(_myWidth - transform.position.x) > 0.1f)
+        {
+            _tempPos = new Vector3(_myWidth, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, _tempPos, _lerpSpeed);
+
+            if (_board.GetTileByPos(_myWidth, _myHeight) != this)
+                _board.SetTileByPos(_myWidth, _myHeight, this);
+        }
+        else
+        {
+            _tempPos = new Vector3(_myWidth, transform.position.y, transform.position.z);
+            transform.position = _tempPos;
+            _board.SetTileByPos(_myWidth, _myHeight, this);
+        }
+        if (Mathf.Abs(_myHeight - transform.position.y) > 0.1f)
+        {
+            _tempPos = new Vector3(transform.position.x, _myHeight, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, _tempPos, _lerpSpeed);
+
+            if (_board.GetTileByPos(_myWidth, _myHeight) != this)
+                _board.SetTileByPos(_myWidth, _myHeight, this);
+        }
+        else
+        {
+            _tempPos = new Vector3(transform.position.x, _myHeight, transform.position.z);
+            transform.position = _tempPos;
+            _board.SetTileByPos(_myWidth, _myHeight, this);
+        }
+
+    }
+
     #region Get/Set
     public void SetType(int value)
     {
@@ -198,7 +146,7 @@ public class SCR_TileBehaviour : MonoBehaviour
     {
         return System.Enum.GetName(typeof(TileType), m_myType);
     }
-    int GetMyTypeNum()
+    public int GetMyTypeNum()
     {
         return (int)m_myType;
     }
@@ -206,8 +154,6 @@ public class SCR_TileBehaviour : MonoBehaviour
     {
         return (TileType)value;
     }
-    #endregion
-
     public void SetMyWidth(int val)
     {
         _myWidth = val;
@@ -227,15 +173,19 @@ public class SCR_TileBehaviour : MonoBehaviour
 
     public void SetBoard(SCR_BoardManager board)
     {
-        _board = board; 
+        _board = board;
+    }
+    public void SetMatchFinder(SCR_MatchFinder finder)
+    {
+        _matchFinder = finder;
     }
     public void SetIsMatched(bool val)
     {
         _isMatched = val;
-        _canSwitch = !val;
     }
     public bool GetIsMatched()
     {
         return _isMatched;
     }
+    #endregion
 }

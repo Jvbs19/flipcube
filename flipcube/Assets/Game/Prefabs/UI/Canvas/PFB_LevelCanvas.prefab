@@ -2114,7 +2114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2900002270318851122, guid: 1334353d65da31d4e96b8d21bca76110, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2900002270318851122, guid: 1334353d65da31d4e96b8d21bca76110, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2126,7 +2126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2900002270318851122, guid: 1334353d65da31d4e96b8d21bca76110, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadSceneByName
+      value: LoadSceneByNextIndex
       objectReference: {fileID: 0}
     - target: {fileID: 2900002270318851122, guid: 1334353d65da31d4e96b8d21bca76110, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -3349,6 +3349,10 @@ PrefabInstance:
       value: SCR_SceneManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8285528168268999852, guid: 20212149aaecbf9498bb0c643e2ba2c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: SCN_LevelSelection
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285528168268999852, guid: 20212149aaecbf9498bb0c643e2ba2c3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -3479,6 +3483,10 @@ PrefabInstance:
       value: SCR_SceneManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8285528168268999852, guid: 20212149aaecbf9498bb0c643e2ba2c3, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: SCN_LevelSelection
+      objectReference: {fileID: 0}
+    - target: {fileID: 8285528168268999852, guid: 20212149aaecbf9498bb0c643e2ba2c3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -3527,6 +3535,10 @@ PrefabInstance:
     - target: {fileID: 3939286763156246606, guid: 30f05daf966dec14abd1e2329f6cb642, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: SCR_SceneManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939286763156246606, guid: 30f05daf966dec14abd1e2329f6cb642, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: SCN_LevelSelection
       objectReference: {fileID: 0}
     - target: {fileID: 3939286763156246606, guid: 30f05daf966dec14abd1e2329f6cb642, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

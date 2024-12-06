@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Game/Scenes/SCN_randomlevel_setup.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Game/Scenes/Menu/SCN_MainMenu.unity
+    guid: ca42c2e5749beee4ca187e26c4fdc31a
+  - enabled: 1
+    path: Assets/Game/Scenes/Menu/SCN_Tutorial.unity
+    guid: 5bfb4be436ce28d4c92939efd567121a
+  - enabled: 1
+    path: Assets/Game/Scenes/Menu/SCN_LevelSelection.unity
+    guid: d03b4b95dd94b384d955b66cb3457a77
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level1.unity
+    guid: 8f729671b900a884d8b1163af3ee33ac
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level2.unity
+    guid: adb8132a3653ff142924e8b69b8255ea
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level10.unity
+    guid: 5ec3aa9c526f9294682410a51ce05efe
   m_configObjects: {}

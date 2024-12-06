@@ -14,13 +14,14 @@ public class SCR_BoardManager : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] bool m_isScripted;
-    [SerializeField] float m_decreaseHeightSpeed = 0.4f;
-    [SerializeField] float m_fillBoardSpeed = 0.5f;
+    [SerializeField] float m_decreaseHeightSpeed = 0.6f;
+    [SerializeField] float m_fillBoardSpeed = 0.8f;
     [SerializeField] float m_releaseMoveCooldown = 0.4f;
     [SerializeField] float m_offset = 0.6f;
 
     [Header("Game Reference")]
     [SerializeField] SCR_MatchFinder m_matchFinder;
+    [SerializeField] SCR_ConditionManager m_conditionManager;
 
     SCR_TileBehaviour[,] m_allTiles;
 
@@ -60,7 +61,31 @@ public class SCR_BoardManager : MonoBehaviour
     }
     void SetUpScriptedGrid()
     {
+        m_allTiles = new SCR_TileBehaviour[_width, _height];
 
+        SCR_TileBehaviour currentTile;
+        int x = 0;
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = 0; j < _height; j++)
+            {
+                currentTile = m_board.transform.GetChild(x).GetComponent<SCR_TileBehaviour>();
+                AddExistingTileToGrid(currentTile, i, j, false, false);
+                x++;
+            }
+        }
+    }
+    void AddExistingTileToGrid(SCR_TileBehaviour tile,int i, int j, bool useOffset = false, bool random = true)
+    {
+        if (useOffset)
+            _pos = new Vector2(i, j + m_offset);
+        else
+            _pos = new Vector2(i, j);
+
+        tile.transform.parent = m_board.transform;
+        tile.transform.name = "(" + i + "," + j + ")";
+
+        TileSetup(tile, i, j, random);
     }
     void SpawnTile(int i, int j, bool useOffset = false, bool random = true)
     {
@@ -69,12 +94,18 @@ public class SCR_BoardManager : MonoBehaviour
         else
             _pos = new Vector2(i, j);
 
-        GameObject tile = Instantiate(m_tilePrefab, _pos, Quaternion.identity); ;
+        GameObject tile = Instantiate(m_tilePrefab, _pos, Quaternion.identity);
 
         tile.transform.parent = m_board.transform;
         tile.transform.name = "(" + i + "," + j + ")";
 
         SCR_TileBehaviour behaviour = tile.GetComponent<SCR_TileBehaviour>();
+
+        TileSetup(behaviour, i, j, random);
+      
+    }
+    void TileSetup(SCR_TileBehaviour behaviour, int i, int j, bool random = true)
+    {
         m_allTiles[i, j] = behaviour;
 
         behaviour.SetBoard(this);
@@ -84,12 +115,12 @@ public class SCR_BoardManager : MonoBehaviour
 
         if (random)
         {
-            int num = Random.Range(0, 3);
+            int num = Random.Range(0, 4);
             behaviour.SetType(num);
 
             while (behaviour.CheckMatches(i, j))
             {
-                num = Random.Range(0, 3);
+                num = Random.Range(0, 4);
                 behaviour.SetType(num);
             }
 
@@ -100,7 +131,6 @@ public class SCR_BoardManager : MonoBehaviour
             behaviour.SetUpColor(behaviour.GetMyTypeNum());
         }
     }
-
     public void SpawnBombTile(int i, int j, int type, bool useOffset = false)
     {
         Debug.Log("SPAWN BOMBA NA " + i + " " + j);
@@ -132,13 +162,24 @@ public class SCR_BoardManager : MonoBehaviour
         {
             m_matchFinder.RemoveFromList(m_allTiles[i, j]);
 
+            AddPointToTheRightPlace(m_allTiles[i, j]);
+
             Destroy(m_allTiles[i, j].gameObject);
             m_allTiles[i, j] = null;
 
+            if (!SCR_GameState.IsGameStateEnded())
+                m_conditionManager.CheckWinCondition();
+
         }
     }
+
     public void DestroyMatches()
     {
+        StartCoroutine(MatchDestroyer());
+    }
+    IEnumerator MatchDestroyer()
+    {
+        yield return new WaitForSeconds(m_fillBoardSpeed);
         if (MatchesOnBoard())
         {
             for (int i = 0; i < _width; i++)
@@ -237,6 +278,19 @@ public class SCR_BoardManager : MonoBehaviour
         return true;
     }
 
+    public void AddPointToTheRightPlace(SCR_TileBehaviour tile)
+    {
+        if (tile.GetMyTypeNum() == 0)
+            SCR_GameStatus.AddRedPoints();
+        else if (tile.GetMyTypeNum() == 1)
+            SCR_GameStatus.AddBluePoints();
+        else if (tile.GetMyTypeNum() == 2)
+            SCR_GameStatus.AddGreenPoints();
+        else
+            SCR_GameStatus.AddYellowPoints();
+    }
+
+    #region Get/Set
     public SCR_TileBehaviour GetTileByPos(int i, int j)
     {
         return m_allTiles[i, j];
@@ -259,4 +313,5 @@ public class SCR_BoardManager : MonoBehaviour
     {
         return _height;
     }
+    #endregion
 }

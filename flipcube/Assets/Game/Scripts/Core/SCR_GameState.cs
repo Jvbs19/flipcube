@@ -1,10 +1,11 @@
 public enum GameState
 {
     wait,
-    move
+    move,
+    ended
 }
 
-public  static class SCR_GameState
+public static class SCR_GameState
 {
 
     static GameState _currentGameState = GameState.move;
@@ -29,6 +30,14 @@ public  static class SCR_GameState
     public static bool IsGameStateMove()
     {
         if (_currentGameState == GameState.move)
+            return true;
+
+        return false;
+    }
+
+    public static bool IsGameStateEnded()
+    {
+        if (_currentGameState == GameState.ended)
             return true;
 
         return false;

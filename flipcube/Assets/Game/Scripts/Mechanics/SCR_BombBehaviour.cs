@@ -9,13 +9,6 @@ public class SCR_BombBehaviour : SCR_TileBehaviour
     [Header("Type Variables")]
     [SerializeField] BombType m_bombType;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         MoveTile();
@@ -23,7 +16,7 @@ public class SCR_BombBehaviour : SCR_TileBehaviour
 
     public override void FindMatches()
     {
-
+        //implement
     }
 
     #region Get/Set

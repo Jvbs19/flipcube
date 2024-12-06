@@ -15,7 +15,7 @@ public class SCR_TileBehaviour : MonoBehaviour
     [SerializeField] MeshRenderer m_tileVisual;
 
     [Header("Settings")]
-    [SerializeField] protected float _lerpSpeed = 0.4f;
+    [SerializeField] protected float _lerpSpeed = 0.6f;
 
     SCR_MatchFinder _matchFinder;
     SCR_BoardManager _board;
@@ -58,7 +58,6 @@ public class SCR_TileBehaviour : MonoBehaviour
 
     public virtual void FindMatches()
     {
-        Debug.Log("Vo procurar kingo");
         _matchFinder.FindMatches();
     }
 

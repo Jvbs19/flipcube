@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SO_Level1_Grid
   m_EditorClassIdentifier: 
   level: 1
-  width: 3
+  width: 4
   height: 3

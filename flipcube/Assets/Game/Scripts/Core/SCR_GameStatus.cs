@@ -1,4 +1,3 @@
-
 public static class SCR_GameStatus
 {
     static int redPoints;
@@ -7,10 +6,6 @@ public static class SCR_GameStatus
     static int yellowPoints;
     static int gameMoviments;
     static float maxTimer;
-
-    static int actualLevel;
-    static int lastLevelPlayed;
-
     public static void AddRedPoints()
     {
         redPoints++;
@@ -28,9 +23,25 @@ public static class SCR_GameStatus
         yellowPoints++;
     }
 
+    public static int GetRedPoints()
+    {
+        return redPoints;
+    }
+    public static int GetBluePoints()
+    {
+        return bluePoints;
+    }
+    public static int GetGreenPoints()
+    {
+        return greenPoints;
+    }
+    public static int GetYellowPoints()
+    {
+        return yellowPoints;
+    }
     public static bool CheckRedPoints(int val)
     {
-        if (greenPoints >= val)
+        if (redPoints >= val)
         {
             return true;
         }
@@ -38,7 +49,7 @@ public static class SCR_GameStatus
     }
     public static bool CheckBluePoints(int val)
     {
-        if (greenPoints >= val)
+        if (bluePoints >= val)
         {
             return true;
         }
@@ -91,14 +102,4 @@ public static class SCR_GameStatus
     {
         return gameMoviments;
     }
-
-    /*
-    public static void SetMaxMoviments(int move)
-    {
-         gameMoviments = move;
-    }
-    public float GetMaxTimer()
-    {
-        return maxTimer;
-    }*/
 }

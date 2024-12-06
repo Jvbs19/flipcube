@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SCR_BoardManager : MonoBehaviour
@@ -22,6 +21,7 @@ public class SCR_BoardManager : MonoBehaviour
     [Header("Game Reference")]
     [SerializeField] SCR_MatchFinder m_matchFinder;
     [SerializeField] SCR_ConditionManager m_conditionManager;
+    [SerializeField] SCR_UIManager m_uiManager;
 
     SCR_TileBehaviour[,] m_allTiles;
 
@@ -75,7 +75,7 @@ public class SCR_BoardManager : MonoBehaviour
             }
         }
     }
-    void AddExistingTileToGrid(SCR_TileBehaviour tile,int i, int j, bool useOffset = false, bool random = true)
+    void AddExistingTileToGrid(SCR_TileBehaviour tile, int i, int j, bool useOffset = false, bool random = true)
     {
         if (useOffset)
             _pos = new Vector2(i, j + m_offset);
@@ -102,7 +102,7 @@ public class SCR_BoardManager : MonoBehaviour
         SCR_TileBehaviour behaviour = tile.GetComponent<SCR_TileBehaviour>();
 
         TileSetup(behaviour, i, j, random);
-      
+
     }
     void TileSetup(SCR_TileBehaviour behaviour, int i, int j, bool random = true)
     {
@@ -112,6 +112,7 @@ public class SCR_BoardManager : MonoBehaviour
         behaviour.SetMatchFinder(m_matchFinder);
         behaviour.SetMyWidth(i);
         behaviour.SetMyHeight(j);
+        behaviour.SetIsMatched(false);
 
         if (random)
         {
@@ -166,10 +167,6 @@ public class SCR_BoardManager : MonoBehaviour
 
             Destroy(m_allTiles[i, j].gameObject);
             m_allTiles[i, j] = null;
-
-            if (!SCR_GameState.IsGameStateEnded())
-                m_conditionManager.CheckWinCondition();
-
         }
     }
 
@@ -194,6 +191,12 @@ public class SCR_BoardManager : MonoBehaviour
         }
         else
         {
+            if (!SCR_GameState.IsGameStateEnded())
+            {
+                if (!MatchesOnBoard())
+                    m_uiManager.UpdateActualPoints();
+                m_conditionManager.CheckWinCondition();
+            }
             StartCoroutine(MoveRelease());
         }
 
@@ -253,6 +256,8 @@ public class SCR_BoardManager : MonoBehaviour
     {
         RefillBoard();
         yield return new WaitForSeconds(m_fillBoardSpeed);
+        if (!MatchesOnBoard())
+            m_uiManager.UpdateActualPoints();
         m_matchFinder.FindMatches();
 
     }

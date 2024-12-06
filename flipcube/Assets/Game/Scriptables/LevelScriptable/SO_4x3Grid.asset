@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38dc4629017269a41931776a270fa4d6, type: 3}
-  m_Name: SO_3allCondition
+  m_Script: {fileID: 11500000, guid: 096aaee7f9b81fa4bb3eb000b079ed60, type: 3}
+  m_Name: SO_4x3Grid
   m_EditorClassIdentifier: 
-  redPoints: 3
-  bluePoints: 3
-  greenPoints: 3
-  yellowPoints: 3
-  maxMoviments: 100
-  maxTimer: -1
+  level: 1
+  width: 4
+  height: 3

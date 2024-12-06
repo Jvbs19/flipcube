@@ -39,10 +39,12 @@ public class SCR_TouchManager : MonoBehaviour
             if (SCR_GameState.IsGameStateMove())
             {
                 SCR_TileBehaviour tile = hit.transform.GetComponent<SCR_TileBehaviour>();
-                tile.SwitchSide();
-                tile.FindMatches();
-                m_finder.SetCurrentTile(tile);
-                SCR_GameState.SetCurrentGameState(GameState.wait);
+                if (tile != null) 
+                {
+                    tile.SwitchSide();
+                    SCR_GameState.SetCurrentGameState(GameState.wait);
+                    SCR_GameStatus.DecreaseMoviment(); 
+                }
             }
         }
     }

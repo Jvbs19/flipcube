@@ -78,7 +78,6 @@ public class SCR_MatchFinder : MonoBehaviour
     {
         if (m_currentMatches.Count() > 3)
         {
-            Debug.Log("Tem mais de 3 valores");
             int redCount = 0;
             int blueCount = 0;
             int greenCount = 0;

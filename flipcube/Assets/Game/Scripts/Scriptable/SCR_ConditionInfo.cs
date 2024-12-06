@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -7,12 +5,12 @@ using UnityEngine;
 public class SCR_ConditionInfo : ScriptableObject
 {
     [Header("Requirements")]
-    [SerializeField] int redPoints = -1;
-    [SerializeField] int bluePoints = -1;
-    [SerializeField] int greenPoints = -1;
-    [SerializeField] int yellowPoints = -1;
-    [SerializeField] int maxMoviments = -1;
-    [SerializeField] float maxTimer = -1;
+    [SerializeField] int redPoints = 0;
+    [SerializeField] int bluePoints = 0;
+    [SerializeField] int greenPoints = 0;
+    [SerializeField] int yellowPoints = 0;
+    [SerializeField] int maxMoviments = 0;
+    [SerializeField] float maxTimer = 0;
 
     public int GetRequiredRedPoints()
     {

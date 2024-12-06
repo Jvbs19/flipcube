@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -54,6 +52,8 @@ public class SCR_TileBehaviour : MonoBehaviour
             m_myType = TileType.Blue;
             SetUpColor(GetMyTypeNum());
         }
+
+        FindMatches();
     }
 
     public virtual void FindMatches()

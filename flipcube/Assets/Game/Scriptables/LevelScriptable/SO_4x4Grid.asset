@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 096aaee7f9b81fa4bb3eb000b079ed60, type: 3}
-  m_Name: SO_Level1_Grid
+  m_Name: SO_4x4Grid
   m_EditorClassIdentifier: 
-  level: 1
   width: 4
-  height: 3
+  height: 4

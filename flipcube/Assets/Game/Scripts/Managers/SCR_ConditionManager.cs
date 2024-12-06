@@ -1,26 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SCR_ConditionManager : MonoBehaviour
 {
     [SerializeField] SCR_ConditionInfo m_gameCondition;
+    [SerializeField] SCR_UIManager m_uiManager;
 
-    int m_rRedPoints;
-    int m_rBluePoints;
-    int m_rGreenPoints;
-    int m_rYellowPoints;
-    int maxMoviments;
-    float maxTimer;
+    int _rRedPoints;
+    int _rBluePoints;
+    int _rGreenPoints;
+    int _rYellowPoints;
 
     void SetUpInfo()
     {
         SCR_GameStatus.ResetAll();
-        m_rRedPoints = m_gameCondition.GetRequiredRedPoints();
-        m_rBluePoints = m_gameCondition.GetRequiredBluePoints();
-        m_rGreenPoints = m_gameCondition.GetRequiredGreenPoints();
-        m_rYellowPoints = m_gameCondition.GetRequiredYellowPoints();
+
+        _rRedPoints = m_gameCondition.GetRequiredRedPoints();
+        _rBluePoints = m_gameCondition.GetRequiredBluePoints();
+        _rGreenPoints = m_gameCondition.GetRequiredGreenPoints();
+        _rYellowPoints = m_gameCondition.GetRequiredYellowPoints();
         SCR_GameStatus.SetMovimentLimit(m_gameCondition.GetMaxMoviments());
+
+
+        m_uiManager.SetupRequiredPoints(_rRedPoints, _rBluePoints, _rGreenPoints, _rYellowPoints);
+        m_uiManager.UpdateActualPoints();
     }
     void Start()
     {
@@ -29,17 +31,20 @@ public class SCR_ConditionManager : MonoBehaviour
 
     public void CheckWinCondition()
     {
-        if (SCR_GameStatus.CheckRedPoints(m_rRedPoints) && SCR_GameStatus.CheckBluePoints(m_rBluePoints) && SCR_GameStatus.CheckGreenPoints(m_rGreenPoints) && SCR_GameStatus.CheckYellowPoints(m_rYellowPoints))
+        if (!SCR_GameState.IsGameStateEnded())
         {
-            Debug.Log("Voce Venceu!!!");
-            SCR_GameState.SetCurrentGameState(GameState.ended);
-        }
-        else
-        {
-            if (SCR_GameStatus.CheckMovimentsLeft() <= 0)
+            if (SCR_GameStatus.CheckRedPoints(_rRedPoints) && SCR_GameStatus.CheckBluePoints(_rBluePoints) && SCR_GameStatus.CheckGreenPoints(_rGreenPoints) && SCR_GameStatus.CheckYellowPoints(_rYellowPoints))
             {
-                Debug.Log("Voce Perdeu!!!");
                 SCR_GameState.SetCurrentGameState(GameState.ended);
+                m_uiManager.SetVictoryScreen();
+            }
+            else
+            {
+                if (SCR_GameStatus.CheckMovimentsLeft() <= 0)
+                {
+                    SCR_GameState.SetCurrentGameState(GameState.ended);
+                    m_uiManager.SetLoseScreen();
+                }
             }
         }
     }

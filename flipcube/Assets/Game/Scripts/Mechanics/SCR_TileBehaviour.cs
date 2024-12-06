@@ -15,12 +15,11 @@ public class SCR_TileBehaviour : MonoBehaviour
     [SerializeField] MeshRenderer m_tileVisual;
 
     [Header("Settings")]
-    [SerializeField] float _lerpSpeed = 0.4f;
+    [SerializeField] protected float _lerpSpeed = 0.4f;
 
     SCR_MatchFinder _matchFinder;
     SCR_BoardManager _board;
 
-    bool _isRandom;
     bool _isMatched = false;
 
     int _myWidth;
@@ -57,7 +56,7 @@ public class SCR_TileBehaviour : MonoBehaviour
         }
     }
 
-    public void FindMatches()
+    public virtual void FindMatches()
     {
         _matchFinder.FindMatches();
         _board.DestroyMatches();
@@ -100,7 +99,7 @@ public class SCR_TileBehaviour : MonoBehaviour
         MoveTile();
     }
 
-    void MoveTile()
+    protected void MoveTile()
     {
         if (Mathf.Abs(_myWidth - transform.position.x) > 0.1f)
         {
@@ -137,10 +136,6 @@ public class SCR_TileBehaviour : MonoBehaviour
     public void SetType(int value)
     {
         m_myType = GetTypeFromInt(value);
-    }
-    public void SetRandomBehaviour(bool isRandom)
-    {
-        _isRandom = isRandom;
     }
     public string GetMyTypeName()
     {

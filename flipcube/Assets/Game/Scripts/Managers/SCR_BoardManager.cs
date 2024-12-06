@@ -9,6 +9,7 @@ public class SCR_BoardManager : MonoBehaviour
     [Header("Grid Objects")]
     [SerializeField] SCR_GridInfo m_gridInfo;
     [SerializeField] GameObject m_tilePrefab;
+    [SerializeField] GameObject[] m_bombPrefab;
     [SerializeField] GameObject m_board;
 
     [Header("Settings")]
@@ -99,19 +100,47 @@ public class SCR_BoardManager : MonoBehaviour
             behaviour.SetUpColor(behaviour.GetMyTypeNum());
         }
     }
-    void DestroyMatchesAt(int i, int j)
+
+    public void SpawnBombTile(int i, int j, int type, bool useOffset = false)
+    {
+        Debug.Log("SPAWN BOMBA NA " + i + " " + j);
+        if (useOffset)
+            _pos = new Vector2(i, j + m_offset);
+        else
+            _pos = new Vector2(i, j);
+
+        GameObject tile = Instantiate(m_bombPrefab[type], _pos, Quaternion.identity); ;
+
+        tile.transform.parent = m_board.transform;
+        tile.transform.name = "(" + i + "," + j + ")" + " B";
+
+        SCR_BombBehaviour behaviour = tile.GetComponent<SCR_BombBehaviour>();
+
+        m_allTiles[i, j] = behaviour;
+
+        behaviour.SetBoard(this);
+        behaviour.SetMatchFinder(m_matchFinder);
+        behaviour.SetMyWidth(i);
+        behaviour.SetMyHeight(j);
+        behaviour.SetBombType(type);
+        behaviour.SetIsMatched(false);
+    }
+
+    public void DestroyMatchesAt(int i, int j)
     {
         if (m_allTiles[i, j].GetIsMatched())
         {
             m_matchFinder.RemoveFromList(m_allTiles[i, j]);
+
             Destroy(m_allTiles[i, j].gameObject);
             m_allTiles[i, j] = null;
+           
         }
     }
-
     public void DestroyMatches()
     {
-       // SCR_GameState.SetCurrentGameState(GameState.wait);
+       // m_matchFinder.Check4More();
+        // SCR_GameState.SetCurrentGameState(GameState.wait);
         for (int i = 0; i < _width; i++)
         {
             for (int j = 0; j < _height; j++)
@@ -181,17 +210,22 @@ public class SCR_BoardManager : MonoBehaviour
             yield return new WaitForSeconds(m_fillBoardSpeed);
             DestroyMatches();
         }
-        
+
         yield return new WaitForSeconds(m_fillBoardSpeed);
+
         m_matchFinder.FindMatches();
-        if(!MatchesOnBoard())
-            SCR_GameState.SetCurrentGameState(GameState.move);
+        SCR_GameState.SetCurrentGameState(GameState.move);
     }
 
     public SCR_TileBehaviour GetTileByPos(int i, int j)
     {
         return m_allTiles[i, j];
     }
+    public SCR_BombBehaviour GetBombByPos(int i, int j)
+    {
+        return m_allTiles[i, j].GetComponent<SCR_BombBehaviour>();
+    }
+
     public void SetTileByPos(int i, int j, SCR_TileBehaviour tile)
     {
         m_allTiles[i, j] = tile;

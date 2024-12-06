@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class SCR_TouchManager : MonoBehaviour
 {
-
+    [SerializeField] SCR_MatchFinder m_finder;
     private IA_TouchControls _touchControls;
     Camera _cam;
     Vector2 _startTouchPos;
@@ -29,6 +29,7 @@ public class SCR_TouchManager : MonoBehaviour
 
     void StartTouch(InputAction.CallbackContext context)
     {
+
         //Debug.Log("Touch Started " + _touchControls.Touch.TouchPosition.ReadValue<Vector2>());
         _startTouchPos = _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         Vector3 pos = new Vector3(_startTouchPos.x, _startTouchPos.y, _cam.nearClipPlane);
@@ -37,15 +38,18 @@ public class SCR_TouchManager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100))
         {
-            SCR_TileBehaviour tile = hit.transform.GetComponent<SCR_TileBehaviour>();
-            tile.SwitchSide();
-            tile.FindMatches();
-            //Debug.Log(hit.transform.name);
+            if (SCR_GameState.IsGameStateMove())
+            {
+                SCR_TileBehaviour tile = hit.transform.GetComponent<SCR_TileBehaviour>();
+                tile.SwitchSide();
+                tile.FindMatches();
+                m_finder.SetCurrentTile(tile);
+            }
         }
     }
     void EndTouch(InputAction.CallbackContext context)
     {
-       // Debug.Log("Touch Ended " + _touchControls.Touch.TouchPosition.ReadValue<Vector2>());
+        SCR_GameState.SetCurrentGameState(GameState.wait);
         _endTouchPos = _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SCR_TileBehaviour : MonoBehaviour
 {
-    enum TileType { Red, Blue, Green, Yellow };
+    public enum TileType { Red, Blue, Green, Yellow };
 
     [Header("Type Variables")]
     [SerializeField] TileType m_myType;
@@ -58,10 +58,9 @@ public class SCR_TileBehaviour : MonoBehaviour
 
     public virtual void FindMatches()
     {
+        Debug.Log("Vo procurar kingo");
         _matchFinder.FindMatches();
-        _board.DestroyMatches();
     }
-
 
     public bool CheckMatches(int width, int height)
     {

@@ -29,8 +29,6 @@ public class SCR_TouchManager : MonoBehaviour
 
     void StartTouch(InputAction.CallbackContext context)
     {
-
-        //Debug.Log("Touch Started " + _touchControls.Touch.TouchPosition.ReadValue<Vector2>());
         _startTouchPos = _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         Vector3 pos = new Vector3(_startTouchPos.x, _startTouchPos.y, _cam.nearClipPlane);
         Ray ray = _cam.ScreenPointToRay(pos);
@@ -44,12 +42,12 @@ public class SCR_TouchManager : MonoBehaviour
                 tile.SwitchSide();
                 tile.FindMatches();
                 m_finder.SetCurrentTile(tile);
+                SCR_GameState.SetCurrentGameState(GameState.wait);
             }
         }
     }
     void EndTouch(InputAction.CallbackContext context)
     {
-        SCR_GameState.SetCurrentGameState(GameState.wait);
         _endTouchPos = _touchControls.Touch.TouchPosition.ReadValue<Vector2>();
     }
 }

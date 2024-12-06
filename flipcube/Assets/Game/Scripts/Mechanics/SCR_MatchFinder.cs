@@ -9,13 +9,13 @@ public class SCR_MatchFinder : MonoBehaviour
 
     [SerializeField] List<SCR_TileBehaviour> m_currentMatches = new List<SCR_TileBehaviour>();
 
-    [SerializeField] float m_findSpeed = 0.6f;
+    [SerializeField] float m_findSpeed = 0.3f;
 
     SCR_TileBehaviour _currentTile;
 
     public void FindMatches()
     {
-        StartCoroutine(FindAllMatches());
+        FindAllMatches();
     }
 
     public void FindBombMatches(int i, int j)
@@ -23,9 +23,8 @@ public class SCR_MatchFinder : MonoBehaviour
         StartCoroutine(FindBombMatch(i, j));
     }
 
-    IEnumerator FindAllMatches()
+    void FindAllMatches()
     {
-        yield return new WaitForSeconds(m_findSpeed);
         for (int i = 0; i < m_board.GetBoardWidth(); i++)
         {
             for (int j = 0; j < m_board.GetBoardHeight(); j++)
@@ -71,19 +70,22 @@ public class SCR_MatchFinder : MonoBehaviour
                 }
             }
         }
+
+        m_board.DestroyMatches();
     }
 
     public void Check4More()
     {
-        if (m_currentMatches.Count() < 3)
+        if (m_currentMatches.Count() > 3)
         {
+            Debug.Log("Tem mais de 3 valores");
             int redCount = 0;
             int blueCount = 0;
             int greenCount = 0;
             int yellowCount = 0;
-            int rowCount = 0;
-            int colCount = 0;
-            SCR_BombBehaviour.BombType higher;
+            int hgtCount = 0;
+            int wdtCount = 0;
+            SCR_TileBehaviour.TileType higher;
 
             foreach (SCR_TileBehaviour tile in m_currentMatches)
             {
@@ -97,35 +99,63 @@ public class SCR_MatchFinder : MonoBehaviour
                     yellowCount++;
 
 
-                if (tile.GetMyHeight() > tile.GetMyWidth())
-                    rowCount++;
+                if (tile.GetMyHeight() > tile.GetMyWidth()) //Y > X
+                    hgtCount++;
                 else
-                    colCount++;
+                    wdtCount++;
 
             }
 
-            if (rowCount <= 3 && colCount <= 3)
-            {
+            Debug.Log("Y COUNT: " + hgtCount);
+            Debug.Log("X COUNT: " + wdtCount);
 
-                if (redCount <= 3 && blueCount <= 3 && greenCount <= 3 && yellowCount <= 3)
+            Debug.Log("RED COUNT: " + redCount);
+            Debug.Log("BLUE COUNT: " + blueCount);
+            Debug.Log("GREEN COUNT: " + greenCount);
+            Debug.Log("YELLOW COUNT: " + yellowCount);
+
+            if (hgtCount > 3 || wdtCount > 3)
+            {
+                Debug.Log("Tem mais de 4 em uma coluna ou linha");
+                if (redCount > 3 || blueCount > 3 || greenCount > 3 || yellowCount > 3)
                 {
 
                     higher = GetHigher(redCount, blueCount, greenCount, yellowCount);
-
+                    Debug.Log("Tem mais de " + higher);
                     int i = _currentTile.GetMyWidth();
                     int j = _currentTile.GetMyHeight();
 
-                    if (rowCount > colCount)
+                    if (hgtCount > wdtCount)
                         m_board.SpawnBombTile(i, j, 1);
                     else
                         m_board.SpawnBombTile(i, j, 0);
 
+                    Debug.Log("BOMB SPAWNED");
+
+                    m_board.DestroyMatches();
                 }
+            }
+            if ((hgtCount > 2 && wdtCount > 3) || (hgtCount > 3 && wdtCount > 2))
+            {
+                higher = GetHigher(redCount, blueCount, greenCount, yellowCount);
+                Debug.Log("Tem mais de " + higher);
+                int i = _currentTile.GetMyWidth();
+                int j = _currentTile.GetMyHeight();
+
+
+                if (hgtCount > wdtCount)
+                    m_board.SpawnBombTile(i, j, 0);
+                else
+                    m_board.SpawnBombTile(i, j, 1);
+
+                Debug.Log("BOMB SPAWNED");
+
+                m_board.DestroyMatches();
             }
 
         }
     }
-    SCR_BombBehaviour.BombType GetHigher(int a, int b, int c, int d)
+    SCR_TileBehaviour.TileType GetHigher(int a, int b, int c, int d)
     {
         int[] val = { a, b, c, d };
         int high = a;
@@ -139,7 +169,7 @@ public class SCR_MatchFinder : MonoBehaviour
                 highpos = i;
             }
         }
-        return (SCR_BombBehaviour.BombType)highpos;
+        return (SCR_TileBehaviour.TileType)highpos;
     }
     IEnumerator FindBombMatch(int i, int j)
     {
@@ -217,6 +247,11 @@ public class SCR_MatchFinder : MonoBehaviour
     public SCR_TileBehaviour GetCurrentTile()
     {
         return _currentTile;
+    }
+
+    public List<SCR_TileBehaviour> GetCurrentMatches()
+    {
+        return m_currentMatches;
     }
 }
 

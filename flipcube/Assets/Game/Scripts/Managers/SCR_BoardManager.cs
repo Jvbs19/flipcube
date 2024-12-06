@@ -15,7 +15,8 @@ public class SCR_BoardManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] bool m_isScripted;
     [SerializeField] float m_decreaseHeightSpeed = 0.4f;
-    [SerializeField] float m_fillBoardSpeed = 0.3f;
+    [SerializeField] float m_fillBoardSpeed = 0.5f;
+    [SerializeField] float m_releaseMoveCooldown = 0.4f;
     [SerializeField] float m_offset = 0.6f;
 
     [Header("Game Reference")]
@@ -45,7 +46,6 @@ public class SCR_BoardManager : MonoBehaviour
             SetUpScriptedGrid();
         }
     }
-
     void SetUpRandomGrid()
     {
         m_allTiles = new SCR_TileBehaviour[_width, _height];
@@ -134,22 +134,28 @@ public class SCR_BoardManager : MonoBehaviour
 
             Destroy(m_allTiles[i, j].gameObject);
             m_allTiles[i, j] = null;
-           
+
         }
     }
     public void DestroyMatches()
     {
-       // m_matchFinder.Check4More();
-        // SCR_GameState.SetCurrentGameState(GameState.wait);
-        for (int i = 0; i < _width; i++)
+        if (MatchesOnBoard())
         {
-            for (int j = 0; j < _height; j++)
+            for (int i = 0; i < _width; i++)
             {
-                if (m_allTiles[i, j] != null)
-                    DestroyMatchesAt(i, j);
+                for (int j = 0; j < _height; j++)
+                {
+                    if (m_allTiles[i, j] != null)
+                        DestroyMatchesAt(i, j);
+                }
             }
+            StartCoroutine(DecreaseRow());
         }
-        StartCoroutine(DecreaseRow());
+        else
+        {
+            StartCoroutine(MoveRelease());
+        }
+
     }
     IEnumerator DecreaseRow()
     {
@@ -178,6 +184,7 @@ public class SCR_BoardManager : MonoBehaviour
     }
     void RefillBoard()
     {
+
         for (int i = 0; i < _width; i++)
         {
             for (int j = 0; j < _height; j++)
@@ -187,7 +194,7 @@ public class SCR_BoardManager : MonoBehaviour
             }
         }
     }
-    bool MatchesOnBoard()
+    public bool MatchesOnBoard()
     {
         for (int i = 0; i < _width; i++)
         {
@@ -205,16 +212,29 @@ public class SCR_BoardManager : MonoBehaviour
     {
         RefillBoard();
         yield return new WaitForSeconds(m_fillBoardSpeed);
-        while (MatchesOnBoard())
-        {
-            yield return new WaitForSeconds(m_fillBoardSpeed);
-            DestroyMatches();
-        }
-
-        yield return new WaitForSeconds(m_fillBoardSpeed);
-
         m_matchFinder.FindMatches();
+
+    }
+
+    IEnumerator MoveRelease()
+    {
+        yield return new WaitForSeconds(m_releaseMoveCooldown);
         SCR_GameState.SetCurrentGameState(GameState.move);
+    }
+    bool IsBoardComplete()
+    {
+
+        for (int i = 0; i < _width; i++)
+        {
+            for (int j = 0; j < _height; j++)
+            {
+                if (m_allTiles[i, j] == null)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public SCR_TileBehaviour GetTileByPos(int i, int j)

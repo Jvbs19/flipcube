@@ -44,5 +44,35 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/Level/SCN_Level10.unity
     guid: 5ec3aa9c526f9294682410a51ce05efe
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level11.unity
+    guid: 7aa717f43e2f3744bb248135ee9231f2
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level12.unity
+    guid: c37dbefe0c943aa4d846be140ea5b520
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level13.unity
+    guid: 4c03a24263e744e46bd117d37dbf6dfb
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level14.unity
+    guid: c47bc0fa0898935498c266d6ccf2c765
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level15.unity
+    guid: 22343d06bb2b9f243b9b1e1937982953
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level16.unity
+    guid: 937892dc7f39e7247a45b849b0717f6c
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level17.unity
+    guid: 3e1941eb0c73f654d9c43efed6e5caa9
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level18.unity
+    guid: 9cb9b7400642bcf489938a0674c12b5b
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level19.unity
+    guid: 6f4ee8e9fc611204da812d28c0d7e385
+  - enabled: 1
+    path: Assets/Game/Scenes/Level/SCN_Level20.unity
+    guid: 6d87b1a096a462f47b1cef52e73d7c60
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: c3d0b5fd7a50a764484ef759d06165fc, type: 3}

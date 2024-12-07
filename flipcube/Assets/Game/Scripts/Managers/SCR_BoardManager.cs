@@ -134,7 +134,6 @@ public class SCR_BoardManager : MonoBehaviour
     }
     public void SpawnBombTile(int i, int j, int type, bool useOffset = false)
     {
-        Debug.Log("SPAWN BOMBA NA " + i + " " + j);
         if (useOffset)
             _pos = new Vector2(i, j + m_offset);
         else
@@ -266,21 +265,6 @@ public class SCR_BoardManager : MonoBehaviour
     {
         yield return new WaitForSeconds(m_releaseMoveCooldown);
         SCR_GameState.SetCurrentGameState(GameState.move);
-    }
-    bool IsBoardComplete()
-    {
-
-        for (int i = 0; i < _width; i++)
-        {
-            for (int j = 0; j < _height; j++)
-            {
-                if (m_allTiles[i, j] == null)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public void AddPointToTheRightPlace(SCR_TileBehaviour tile)

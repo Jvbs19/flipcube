@@ -328,7 +328,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -353,7 +353,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 2.5, z: -10}
+  m_LocalPosition: {x: 2, y: 2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee72a27006c01d4a8577b981841cbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gameCondition: {fileID: 11400000, guid: a11cd21a55c0be24b9e1f25a18e47d60, type: 2}
+  m_gameCondition: {fileID: 11400000, guid: 79abc4928497c894c8bfa2f05fe58a64, type: 2}
   m_uiManager: {fileID: 1135602493}
 --- !u!4 &924618223
 Transform:
@@ -672,7 +672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e581a460e0e8d224a9218266a1aeda91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gridInfo: {fileID: 11400000, guid: 987ca4312ff53574b84e6149fcc3d8ba, type: 2}
+  m_gridInfo: {fileID: 11400000, guid: d32719f06943c5b48b588627e6ce5303, type: 2}
   m_tilePrefab: {fileID: 1559229595204611074, guid: 46a92af7ad78a5244bae388b80d9a7c9, type: 3}
   m_bombPrefab:
   - {fileID: 8701340368081824753, guid: 497798a331af7c247bad88d0d8c5d415, type: 3}
@@ -849,11 +849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4835578573843021883, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
       propertyPath: m_text
-      value: LEVEL 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4835578573843021883, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
-      propertyPath: m_fontSize
-      value: 70.25
+      value: LEVEL 6
       objectReference: {fileID: 0}
     - target: {fileID: 7262859842987779470, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
       propertyPath: m_Name

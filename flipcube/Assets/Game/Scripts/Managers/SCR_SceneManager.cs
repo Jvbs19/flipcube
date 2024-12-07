@@ -13,7 +13,11 @@ public class SCR_SceneManager : MonoBehaviour
     {
         SCR_GameState.SetCurrentGameState(GameState.move);
         SCR_GameStatus.ResetAll();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
+
+        if (SceneManager.GetActiveScene().buildIndex + 1 < SceneManager.sceneCount)
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        else
+            SceneManager.LoadScene(2);
     }
     public void ResetCurrentScene()
     {

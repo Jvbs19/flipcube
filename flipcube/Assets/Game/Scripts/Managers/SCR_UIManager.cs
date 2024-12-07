@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class SCR_UIManager : MonoBehaviour
@@ -19,7 +16,7 @@ public class SCR_UIManager : MonoBehaviour
         m_requiredScore[0].text = "" + r;
         m_requiredScore[1].text = "" + b;
         m_requiredScore[2].text = "" + g;
-        m_requiredScore[3].text = "" + b;
+        m_requiredScore[3].text = "" + y;
     }
     public void UpdateActualPoints()
     {

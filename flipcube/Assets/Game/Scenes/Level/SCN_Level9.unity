@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cee72a27006c01d4a8577b981841cbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_gameCondition: {fileID: 11400000, guid: a11cd21a55c0be24b9e1f25a18e47d60, type: 2}
+  m_gameCondition: {fileID: 11400000, guid: 8ebdb405f85dd8e4ea540a332e6dcab2, type: 2}
   m_uiManager: {fileID: 1135602493}
 --- !u!4 &924618223
 Transform:
@@ -849,11 +849,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4835578573843021883, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
       propertyPath: m_text
-      value: LEVEL 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4835578573843021883, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
-      propertyPath: m_fontSize
-      value: 70.25
+      value: LEVEL 9
       objectReference: {fileID: 0}
     - target: {fileID: 7262859842987779470, guid: 0b6a2cbc0cb808247ad867661b062e25, type: 3}
       propertyPath: m_Name

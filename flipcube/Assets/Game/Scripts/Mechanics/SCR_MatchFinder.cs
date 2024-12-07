@@ -56,7 +56,7 @@ public class SCR_MatchFinder : MonoBehaviour
                         SCR_TileBehaviour downTile = m_board.GetTileByPos(i, j - 1);
 
                         if (upTile != null && downTile != null)
-                            if (upTile.GetMyTypeName() == tile.GetMyTypeName() && downTile.GetMyTypeName() == tile.GetMyTypeName()) // Up and Down
+                            if (upTile.GetMyTypeName() == tile.GetMyTypeName() && downTile.GetMyTypeName() == tile.GetMyTypeName())
                             {
                                 AddToList(tile);
                                 AddToList(upTile);
@@ -67,6 +67,100 @@ public class SCR_MatchFinder : MonoBehaviour
                                 tile.SetIsMatched(true);
                             }
                     }
+
+                    if (j > 0 && i > 0 && i < m_board.GetBoardWidth() - 1)
+                    {
+                        SCR_TileBehaviour upTile = m_board.GetTileByPos(i, j - 1);
+                        SCR_TileBehaviour leftTile = m_board.GetTileByPos(i - 1, j);
+                        SCR_TileBehaviour rightTile = m_board.GetTileByPos(i + 1, j);
+
+                        if (leftTile != null && rightTile != null && upTile != null)
+                            if (leftTile.GetMyTypeName() == tile.GetMyTypeName() && rightTile.GetMyTypeName() == tile.GetMyTypeName() && upTile.GetMyTypeName() == tile.GetMyTypeName())
+                            {
+                                AddToList(tile);
+                                AddToList(upTile);
+                                AddToList(leftTile);
+                                AddToList(rightTile);
+
+                                upTile.SetIsMatched(true);
+                                leftTile.SetIsMatched(true);
+                                rightTile.SetIsMatched(true);
+                                tile.SetIsMatched(true);
+                            }
+                    }
+                    if (j < m_board.GetBoardHeight() - 1 && i > 0 && i < m_board.GetBoardWidth() - 1)
+                    {
+                        SCR_TileBehaviour downTile = m_board.GetTileByPos(i, j + 1);
+                        SCR_TileBehaviour leftTile = m_board.GetTileByPos(i - 1, j);
+                        SCR_TileBehaviour rightTile = m_board.GetTileByPos(i + 1, j);
+
+                        if (downTile != null && leftTile != null && rightTile != null)
+                        {
+                            if (downTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                leftTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                rightTile.GetMyTypeName() == tile.GetMyTypeName())
+                            {
+                                AddToList(tile);
+                                AddToList(downTile);
+                                AddToList(leftTile);
+                                AddToList(rightTile);
+
+                                downTile.SetIsMatched(true);
+                                leftTile.SetIsMatched(true);
+                                rightTile.SetIsMatched(true);
+                                tile.SetIsMatched(true);
+                            }
+                        }
+                    }
+                    if (j > 0 && j < m_board.GetBoardHeight() - 1 && i > 0)
+                    {
+                        SCR_TileBehaviour upTile = m_board.GetTileByPos(i, j - 1);
+                        SCR_TileBehaviour downTile = m_board.GetTileByPos(i, j + 1);
+                        SCR_TileBehaviour leftTile = m_board.GetTileByPos(i - 1, j);
+
+                        if (upTile != null && downTile != null && leftTile != null)
+                        {
+                            if (upTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                downTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                leftTile.GetMyTypeName() == tile.GetMyTypeName())
+                            {
+                                AddToList(tile);
+                                AddToList(upTile);
+                                AddToList(downTile);
+                                AddToList(leftTile);
+
+                                upTile.SetIsMatched(true);
+                                downTile.SetIsMatched(true);
+                                leftTile.SetIsMatched(true);
+                                tile.SetIsMatched(true);
+                            }
+                        }
+                    }
+                    if (j > 0 && j < m_board.GetBoardHeight() - 1 && i < m_board.GetBoardWidth() - 1)
+                    {
+                        SCR_TileBehaviour upTile = m_board.GetTileByPos(i, j - 1);
+                        SCR_TileBehaviour downTile = m_board.GetTileByPos(i, j + 1);
+                        SCR_TileBehaviour rightTile = m_board.GetTileByPos(i + 1, j);
+
+                        if (upTile != null && downTile != null && rightTile != null)
+                        {
+                            if (upTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                downTile.GetMyTypeName() == tile.GetMyTypeName() &&
+                                rightTile.GetMyTypeName() == tile.GetMyTypeName())
+                            {
+                                AddToList(tile);
+                                AddToList(upTile);
+                                AddToList(downTile);
+                                AddToList(rightTile);
+
+                                upTile.SetIsMatched(true);
+                                downTile.SetIsMatched(true);
+                                rightTile.SetIsMatched(true);
+                                tile.SetIsMatched(true);
+                            }
+                        }
+                    }
+
                 }
             }
         }
@@ -74,7 +168,7 @@ public class SCR_MatchFinder : MonoBehaviour
         m_board.DestroyMatches();
     }
 
-    public void Check4More()
+    void Check4More()
     {
         if (m_currentMatches.Count() > 3)
         {
@@ -98,29 +192,19 @@ public class SCR_MatchFinder : MonoBehaviour
                     yellowCount++;
 
 
-                if (tile.GetMyHeight() > tile.GetMyWidth()) //Y > X
+                if (tile.GetMyHeight() > tile.GetMyWidth())
                     hgtCount++;
                 else
                     wdtCount++;
 
             }
 
-            Debug.Log("Y COUNT: " + hgtCount);
-            Debug.Log("X COUNT: " + wdtCount);
-
-            Debug.Log("RED COUNT: " + redCount);
-            Debug.Log("BLUE COUNT: " + blueCount);
-            Debug.Log("GREEN COUNT: " + greenCount);
-            Debug.Log("YELLOW COUNT: " + yellowCount);
-
             if (hgtCount > 3 || wdtCount > 3)
             {
-                Debug.Log("Tem mais de 4 em uma coluna ou linha");
                 if (redCount > 3 || blueCount > 3 || greenCount > 3 || yellowCount > 3)
                 {
 
                     higher = GetHigher(redCount, blueCount, greenCount, yellowCount);
-                    Debug.Log("Tem mais de " + higher);
                     int i = _currentTile.GetMyWidth();
                     int j = _currentTile.GetMyHeight();
 
@@ -129,7 +213,6 @@ public class SCR_MatchFinder : MonoBehaviour
                     else
                         m_board.SpawnBombTile(i, j, 0);
 
-                    Debug.Log("BOMB SPAWNED");
 
                     m_board.DestroyMatches();
                 }
@@ -137,7 +220,7 @@ public class SCR_MatchFinder : MonoBehaviour
             if ((hgtCount > 2 && wdtCount > 3) || (hgtCount > 3 && wdtCount > 2))
             {
                 higher = GetHigher(redCount, blueCount, greenCount, yellowCount);
-                Debug.Log("Tem mais de " + higher);
+
                 int i = _currentTile.GetMyWidth();
                 int j = _currentTile.GetMyHeight();
 
@@ -146,8 +229,6 @@ public class SCR_MatchFinder : MonoBehaviour
                     m_board.SpawnBombTile(i, j, 0);
                 else
                     m_board.SpawnBombTile(i, j, 1);
-
-                Debug.Log("BOMB SPAWNED");
 
                 m_board.DestroyMatches();
             }
@@ -180,12 +261,10 @@ public class SCR_MatchFinder : MonoBehaviour
             if (bomb.GetBombTypeNum() == 0)
             {
                 GetColumnTiles(i);
-                Debug.Log("MATCH FOUND");
             }
             else if (bomb.GetBombTypeNum() == 1)
             {
                 GetRowTiles(j);
-                Debug.Log("MATCH FOUND");
             }
         }
     }
@@ -229,15 +308,6 @@ public class SCR_MatchFinder : MonoBehaviour
         }
         return tiles;
     }
-
-    bool CheckForT(List<SCR_TileBehaviour> tiles)
-    {
-        if (tiles.Count < 5)
-            return false;
-
-        return false;
-    }
-
     public void SetCurrentTile(SCR_TileBehaviour ct)
     {
         _currentTile = ct;

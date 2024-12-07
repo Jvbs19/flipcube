@@ -31,6 +31,8 @@ public class SCR_BoardManager : MonoBehaviour
     {
         _width = m_gridInfo.GetWidth();
         _height = m_gridInfo.GetHeight();
+
+        UpdateScreenSize(_width, _height);
     }
 
     void Start()
@@ -279,6 +281,21 @@ public class SCR_BoardManager : MonoBehaviour
             SCR_GameStatus.AddYellowPoints();
     }
 
+    void UpdateScreenSize(int i, int j)
+    {
+        if(i <= 4)
+        {
+            Camera.main.orthographicSize = 5;
+        }
+        else if(i == 5)
+        {
+            Camera.main.orthographicSize = 6;
+        }
+        else
+        {
+            Camera.main.orthographicSize = 7;
+        }
+    }
     #region Get/Set
     public SCR_TileBehaviour GetTileByPos(int i, int j)
     {
